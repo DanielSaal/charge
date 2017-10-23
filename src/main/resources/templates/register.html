@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Condominium Charge</title>
+		<link th:href="@{/css/style.css}" rel="stylesheet" />
+		<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+		<link th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet" />
+	</head>
+	<body>
+		<nav class="navbar navbar-inverse navbar-static-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">Condominium Charge</a>
+				</div>
+			</div>
+		</nav>
+
+		<form class="form-horizontal">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h1 class="panel-title">New Title</h1>
+				</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<label for="description" class="col-sm-2 control-label">Description</label>
+						<div class="col-sm-4">
+							<input id="description" type="text" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="dueDate" class="col-sm-2 control-label">Due Date</label>
+						<div class="col-sm-2">
+							<input id="dueDate" type="text" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="value" class="col-sm-2 control-label">Value</label>
+						<div class="col-sm-2">
+							<input id="value" type="text" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="status" class="col-sm-2 control-label">Status</label>
+						<div class="col-sm-2">
+							<select class="form-control">
+								<option>Pending</option>
+								<option>Received</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-primary">Save</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	
+		<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	</body>
+</html>
