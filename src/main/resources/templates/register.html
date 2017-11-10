@@ -1,67 +1,55 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template}">
 
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<title>Condominium Charge</title>
-		<link th:href="@{/css/style.css}" rel="stylesheet" />
-		<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
-		<link th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet" />
+		<title>Register List</title>
 	</head>
-	<body>
-		<nav class="navbar navbar-inverse navbar-static-top">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="#">Condominium Charge</a>
-				</div>
-			</div>
-		</nav>
 
-		<form class="form-horizontal" method="POST" action="/registers">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">New Title</h3>
-				</div>
-				<div class="panel-body">
-					<div class="form-group">
-						<label for="description" class="col-sm-2 control-label">Description</label>
-						<div class="col-sm-4">
-							<input id="description" name="description" type="text" class="form-control" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="dueDate" class="col-sm-2 control-label">Due Date</label>
-						<div class="col-sm-2">
-							<input id="dueDate" name="dueDate" type="text" class="form-control" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="value" class="col-sm-2 control-label">Value</label>
-						<div class="col-sm-2">
-							<input id="value" name="value" type="text" class="form-control" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="status" class="col-sm-2 control-label">Status</label>
-						<div class="col-sm-2">
-							<select id="status" name="status" class="form-control">
-								<option value="PENDING">Pending</option>
-								<option value="RECEIVED">Received</option>
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<button type="submit" class="btn btn-primary">Save</button>
-						</div>
-					</div>
+	<section layout:fragment="content">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="clearfix">
+					<h3 class="panel-title title-panel">Register List</h3>
+					<a class="link-panel" href="/registers/new">New Register</a>
 				</div>
 			</div>
-		</form>
-	
-		<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-		<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-	</body>
+			<div class="panel-body">
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th class="text-center col-md-1">#</th>
+							<th>Description</th>
+							<th class="text-center col-md-2">Due Date</th>
+							<th class="text-center col-md-2">Value</th>
+							<th class="text-center col-md-2">Status</th>
+							<th class="col-md-1"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="register : ${registers}">
+							<td class="text-center" th:text="${register.id}"></td>
+							<td th:text="${register.description}"></td>
+							<td class="text-center" th:text="${{register.dueDate}}"></td>
+							<td class="text-center" th:text="|R$ ${{register.value}}|"></td>
+							<td class="text-center">
+								<span class="label" th:text="${register.status.description}" 
+								th:classappend="${register.status.description == 'Pending' ? 'label-danger' : 'label-success'}"></span>
+							</td>
+							<td class="text-center">
+								<a class="btn btn-link btn-xs" title="Edit Register" th:href="@{/registers/{id}(id=${register.id})}" >
+									<span class="glyphicon glyphicon-pencil"></span>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="6" th:if="${#lists.isEmpty(registers)}">Registers not found!</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
 </html>

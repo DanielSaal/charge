@@ -5,3 +5,16 @@
 .panel-default {
 	margin: 10px;
 }
+
+.alert {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.title-panel {
+	float: left;
+}
+
+.link-panel {
+	float: right;
+}
