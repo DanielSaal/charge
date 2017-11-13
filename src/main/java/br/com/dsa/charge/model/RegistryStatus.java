@@ -1,12 +1,12 @@
 package br.com.dsa.charge.model;
 
-public enum RegisterStatus {
+public enum RegistryStatus {
 
 	PENDING("Pending"), RECEIVED("Received");
 
 	private String description;
 
-	private RegisterStatus(String description) {
+	private RegistryStatus(String description) {
 		this.description = description;
 	}
 

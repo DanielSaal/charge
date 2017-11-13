@@ -5,19 +5,19 @@
 	layout:decorate="~{template}">
 
 	<head>
-		<title>New Register</title>
+		<title>New Registry</title>
 	</head>
 	
 	<section layout:fragment="content">
-		<form class="form-horizontal" method="POST" action="/registers" th:object="${register}">
+		<form class="form-horizontal" method="POST" action="/registries" th:object="${registry}">
 			
-			<div layout:insert="messages"></div>
+			<div layout:insert="~{messages}"></div>
 			
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<div class="clearfix">
-						<h3 class="panel-title title-panel">New Register</h3>
-						<a class="link-panel" href="/registers">Go back!</a>
+						<h3 class="panel-title title-panel">New Registry</h3>
+						<a class="link-panel" href="/registries">Go back!</a>
 					</div>
 				</div>
 				<div class="panel-body">

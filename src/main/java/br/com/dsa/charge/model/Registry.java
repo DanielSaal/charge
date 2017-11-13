@@ -18,7 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
 @Entity
-public class Register {
+public class Registry {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,7 @@ public class Register {
 	private Double value;
 
 	@Enumerated(EnumType.STRING)
-	private RegisterStatus status;
+	private RegistryStatus status;
 
 	public Long getId() {
 		return id;
@@ -72,11 +72,11 @@ public class Register {
 		this.value = value;
 	}
 
-	public RegisterStatus getStatus() {
+	public RegistryStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(RegisterStatus status) {
+	public void setStatus(RegistryStatus status) {
 		this.status = status;
 	}
 
@@ -100,7 +100,7 @@ public class Register {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Register other = (Register) obj;
+		Registry other = (Registry) obj;
 		if (description == null) {
 			if (other.description != null)
 				return false;

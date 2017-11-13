@@ -5,15 +5,15 @@
 	layout:decorate="~{template}">
 
 	<head>
-		<title>Register List</title>
+		<title>Registries</title>
 	</head>
 
 	<section layout:fragment="content">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<div class="clearfix">
-					<h3 class="panel-title title-panel">Register List</h3>
-					<a class="link-panel" href="/registers/new">New Register</a>
+					<h3 class="panel-title title-panel">Registries</h3>
+					<a class="link-panel" href="/registries/new">New Registry</a>
 				</div>
 			</div>
 			<div class="panel-body">
@@ -29,23 +29,23 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="register : ${registers}">
-							<td class="text-center" th:text="${register.id}"></td>
-							<td th:text="${register.description}"></td>
-							<td class="text-center" th:text="${{register.dueDate}}"></td>
-							<td class="text-center" th:text="|R$ ${{register.value}}|"></td>
+						<tr th:each="registry : ${registries}">
+							<td class="text-center" th:text="${registry.id}"></td>
+							<td th:text="${registry.description}"></td>
+							<td class="text-center" th:text="${{registry.dueDate}}"></td>
+							<td class="text-center" th:text="|R$ ${{registry.value}}|"></td>
 							<td class="text-center">
-								<span class="label" th:text="${register.status.description}" 
-								th:classappend="${register.status.description == 'Pending' ? 'label-danger' : 'label-success'}"></span>
+								<span class="label" th:text="${registry.status.description}" 
+								th:classappend="${registry.status.description == 'Pending' ? 'label-danger' : 'label-success'}"></span>
 							</td>
 							<td class="text-center">
-								<a class="btn btn-link btn-xs" title="Edit Register" th:href="@{/registers/{id}(id=${register.id})}" >
+								<a class="btn btn-link btn-xs" title="Edit Registry" th:href="@{/registries/{id}(id=${registry.id})}" >
 									<span class="glyphicon glyphicon-pencil"></span>
 								</a>
 							</td>
 						</tr>
 						<tr>
-							<td colspan="6" th:if="${#lists.isEmpty(registers)}">Registers not found!</td>
+							<td colspan="6" th:if="${#lists.isEmpty(registries)}">Registries not found!</td>
 						</tr>
 					</tbody>
 				</table>

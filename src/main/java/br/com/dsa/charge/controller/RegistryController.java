@@ -15,60 +15,60 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.com.dsa.charge.model.Register;
-import br.com.dsa.charge.model.RegisterStatus;
-import br.com.dsa.charge.repository.RegistersRepository;
+import br.com.dsa.charge.model.Registry;
+import br.com.dsa.charge.model.RegistryStatus;
+import br.com.dsa.charge.repository.RegistriesRepository;
 
 @Controller
-@RequestMapping("/registers")
-public class RegisterController {
+@RequestMapping("/registries")
+public class RegistryController {
 
-	private static final String REGISTER_VIEW = "register";
-	private static final String NEW_REGISTER_VIEW = "newRegister";
+	private static final String REGISTRY_VIEW = "registry";
+	private static final String NEW_REGISTRY_VIEW = "registryForm";
 
 	@Autowired
-	private RegistersRepository registersRepo;
+	private RegistriesRepository registriesRepo;
 
 	@GetMapping
 	public ModelAndView index() {
-		List<Register> registers = registersRepo.findAll();
-		ModelAndView mv = new ModelAndView(REGISTER_VIEW);
-		mv.addObject("registers", registers);
+		List<Registry> registries = registriesRepo.findAll();
+		ModelAndView mv = new ModelAndView(REGISTRY_VIEW);
+		mv.addObject("registries", registries);
 
 		return mv;
 	}
 
 	@GetMapping("/new")
 	public ModelAndView create() {
-		ModelAndView mv = new ModelAndView(NEW_REGISTER_VIEW);
-		mv.addObject(new Register());
+		ModelAndView mv = new ModelAndView(NEW_REGISTRY_VIEW);
+		mv.addObject(new Registry());
 
 		return mv;
 	}
 
 	@PostMapping
-	public String save(@Validated Register register, Errors errors, RedirectAttributes attributes) {
+	public String save(@Validated Registry registry, Errors errors, RedirectAttributes attributes) {
 		if (errors.hasErrors()) {
-			return NEW_REGISTER_VIEW;
+			return NEW_REGISTRY_VIEW;
 		}
-		registersRepo.save(register);
+		registriesRepo.save(registry);
 
 		attributes.addFlashAttribute("message", "Register saved with success!");
-		return "redirect:/registers/new";
+		return "redirect:/registries/new";
 	}
 
 	@GetMapping("{id}")
 	public ModelAndView edit(@PathVariable Long id) {
-		ModelAndView mv = new ModelAndView(NEW_REGISTER_VIEW);
-		Register register = registersRepo.findOne(id);
+		ModelAndView mv = new ModelAndView(NEW_REGISTRY_VIEW);
+		Registry registry = registriesRepo.findOne(id);
 
-		mv.addObject(register);
+		mv.addObject(registry);
 		return mv;
 	}
 
 	@ModelAttribute("allStatus")
-	public List<RegisterStatus> allRegisterStatus() {
+	public List<RegistryStatus> allRegisterStatus() {
 
-		return Arrays.asList(RegisterStatus.values());
+		return Arrays.asList(RegistryStatus.values());
 	}
 }
