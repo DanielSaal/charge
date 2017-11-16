@@ -4,9 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,10 +53,16 @@ public class RegistryController {
 		if (errors.hasErrors()) {
 			return NEW_REGISTRY_VIEW;
 		}
-		registriesRepo.save(registry);
+		try {
+			registriesRepo.save(registry);
 
-		attributes.addFlashAttribute("message", "Register saved with success!");
-		return "redirect:/registries/new";
+			attributes.addFlashAttribute("message", "Registry saved with success!");
+			return "redirect:/registries/new";
+		} catch (DataIntegrityViolationException e) {
+			errors.rejectValue("dueDate", null, "Invalid date format");
+			return NEW_REGISTRY_VIEW;
+		}
+
 	}
 
 	@GetMapping("{id}")
@@ -64,6 +72,14 @@ public class RegistryController {
 
 		mv.addObject(registry);
 		return mv;
+	}
+
+	@DeleteMapping("{id}")
+	public String delete(@PathVariable Long id, RedirectAttributes attributes) {
+		registriesRepo.delete(id);
+
+		attributes.addFlashAttribute("message", "Registry deleted with success!");
+		return "redirect:/registries";
 	}
 
 	@ModelAttribute("allStatus")
