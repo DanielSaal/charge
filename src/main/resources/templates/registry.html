@@ -15,46 +15,67 @@
 			<div class="panel-heading">
 				<div class="clearfix">
 					<h3 class="panel-title title-panel">Registries</h3>
-					<a class="link-panel" href="/registries/new">New Registry</a>
+					<a class="link-panel" th:href="@{/registries/new}">New Registry</a>
 				</div>
 			</div>
 			<div class="panel-body">
-				<table class="table table-bordered table-striped">
-					<thead>
-						<tr>
-							<th class="text-center col-md-1">#</th>
-							<th>Description</th>
-							<th class="text-center col-md-2">Due Date</th>
-							<th class="text-center col-md-2">Value</th>
-							<th class="text-center col-md-2">Status</th>
-							<th class="col-md-1"></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="registry : ${registries}">
-							<td class="text-center" th:text="${registry.id}"></td>
-							<td th:text="${registry.description}"></td>
-							<td class="text-center" th:text="${{registry.dueDate}}"></td>
-							<td class="text-center" th:text="|R$ ${{registry.value}}|"></td>
-							<td class="text-center">
-								<span class="label" th:text="${registry.status.description}" 
-								th:classappend="${registry.status.description == 'Pending' ? 'label-danger' : 'label-success'}"></span>
-							</td>
-							<td class="text-center">
-								<a class="btn btn-link btn-xs" th:href="@{/registries/{id}(id=${registry.id})}" title="Edit Registry" rel="tooltip" data-placement="top">
-									<span class="glyphicon glyphicon-pencil"></span>
-								</a>
-								<a class="btn btn-link btn-xs" data-toggle="modal" data-target="#deleteModal" th:attr="data-id=${registry.id}" 
-										title="Delete Registry" rel="tooltip" data-placement="top">
-									<span class="glyphicon glyphicon-remove"></span>
-								</a>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="6" th:if="${#lists.isEmpty(registries)}">Registries not found!</td>
-						</tr>
-					</tbody>
-				</table>
+				<form method="GET" th:action="@{/registries}" th:object=${registryFilter} class="form-horizontal">
+					<div class="form-group">
+						<div class="col-sm-4">
+							<div class="input-group">
+								<input th:field=*{description} class="form-control" placeholder="Search by description..."></input>
+								<span class="input-group-btn">
+									<button type="submit" class="btn btn-default">
+										<i class="glyphicon glyphicon-search"></i>
+									</button>
+								</span>
+							</div>
+						</div>
+					</div>
+				</form>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th class="text-center col-md-1">#</th>
+								<th>Description</th>
+								<th class="text-center col-md-2">Due Date</th>
+								<th class="text-center col-md-2">Value</th>
+								<th class="text-center col-md-2">Status</th>
+								<th class="col-md-1"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="registry : ${registries}">
+								<td class="text-center" th:text="${registry.id}"></td>
+								<td th:text="${registry.description}"></td>
+								<td class="text-center" th:text="${{registry.dueDate}}"></td>
+								<td class="text-center" th:text="|R$ ${{registry.value}}|"></td>
+								<td class="text-center" th:attr="data-role=${registry.id}">
+									<span class="label" th:text="${registry.status.description}" 
+									th:classappend="${registry.status.description == 'Pending' ? 'label-danger' : 'label-success'}"></span>
+								</td>
+								<td class="text-center">
+									<a class="btn btn-link btn-xs" th:href="@{/registries/{id}(id=${registry.id})}" title="Edit Registry" rel="tooltip" data-placement="top">
+										<span class="glyphicon glyphicon-pencil"></span>
+									</a>
+									<a class="btn btn-link btn-xs" data-toggle="modal" data-target="#deleteModal" th:attr="data-id=${registry.id}" 
+											title="Delete Registry" rel="tooltip" data-placement="top">
+										<span class="glyphicon glyphicon-remove"></span>
+									</a>
+									<a class="btn btn-link btn-xs js-update-status" th:if="${registry.status.description == 'Pending'}" 
+										th:attr="data-id=${registry.id}" th:href="@{/registries/{id}/receive(id=${registry.id})}" 
+										title="Pay Registry" rel="tooltip" data-placement="top">
+										<span class="glyphicon glyphicon-check"></span>
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="6" th:if="${#lists.isEmpty(registries)}">Registries not found!</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 			<div layout:insert="~{dialogDelete}"></div>
 		</div>

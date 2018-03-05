@@ -22,6 +22,7 @@ public class Registry {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "registry_id")
 	private Long id;
 
 	@NotEmpty(message = "Description is required")

@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
@@ -13,13 +12,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.dsa.charge.model.Registry;
 import br.com.dsa.charge.model.RegistryStatus;
-import br.com.dsa.charge.repository.RegistriesRepository;
+import br.com.dsa.charge.repository.filter.RegistryFilter;
+import br.com.dsa.charge.service.RegistryService;
 
 @Controller
 @RequestMapping("/registries")
@@ -29,11 +31,11 @@ public class RegistryController {
 	private static final String NEW_REGISTRY_VIEW = "registryForm";
 
 	@Autowired
-	private RegistriesRepository registriesRepo;
+	private RegistryService registryService;
 
 	@GetMapping
-	public ModelAndView index() {
-		List<Registry> registries = registriesRepo.findAll();
+	public ModelAndView index(RegistryFilter filter) {
+		List<Registry> registries = registryService.findByDescription(filter);
 		ModelAndView mv = new ModelAndView(REGISTRY_VIEW);
 		mv.addObject("registries", registries);
 
@@ -54,12 +56,12 @@ public class RegistryController {
 			return NEW_REGISTRY_VIEW;
 		}
 		try {
-			registriesRepo.save(registry);
+			registryService.save(registry);
 
 			attributes.addFlashAttribute("message", "Registry saved with success!");
 			return "redirect:/registries/new";
-		} catch (DataIntegrityViolationException e) {
-			errors.rejectValue("dueDate", null, "Invalid date format");
+		} catch (IllegalArgumentException e) {
+			errors.rejectValue("dueDate", null, e.getMessage());
 			return NEW_REGISTRY_VIEW;
 		}
 
@@ -68,7 +70,7 @@ public class RegistryController {
 	@GetMapping("{id}")
 	public ModelAndView edit(@PathVariable Long id) {
 		ModelAndView mv = new ModelAndView(NEW_REGISTRY_VIEW);
-		Registry registry = registriesRepo.findOne(id);
+		Registry registry = registryService.findById(id);
 
 		mv.addObject(registry);
 		return mv;
@@ -76,10 +78,16 @@ public class RegistryController {
 
 	@DeleteMapping("{id}")
 	public String delete(@PathVariable Long id, RedirectAttributes attributes) {
-		registriesRepo.delete(id);
+		registryService.delete(id);
 
 		attributes.addFlashAttribute("message", "Registry deleted with success!");
 		return "redirect:/registries";
+	}
+
+	@PutMapping("{id}/receive")
+	public @ResponseBody String receive(@PathVariable Long id) {
+
+		return registryService.receive(id);
 	}
 
 	@ModelAttribute("allStatus")

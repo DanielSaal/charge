@@ -26,4 +26,12 @@ public class ChargeApplication {
 	public LayoutDialect layoutDialect() {
 		return new LayoutDialect();
 	}
+
+	// @Configuration
+	// public static class MvcConfig extends WebMvcConfigurerAdapter {
+	// @Override
+	// public void addViewControllers(ViewControllerRegistry registry) {
+	// registry.addRedirectViewController("/", "/registries");
+	// }
+	// }
 }
