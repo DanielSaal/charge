@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.dsa.charge.filter.RegistryFilter;
 import br.com.dsa.charge.model.Registry;
 import br.com.dsa.charge.model.RegistryStatus;
-import br.com.dsa.charge.repository.filter.RegistryFilter;
 import br.com.dsa.charge.service.RegistryService;
 
 @Controller

@@ -1,8 +1,11 @@
 package br.com.dsa.charge.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.dsa.charge.filter.RegistryFilter;
 import br.com.dsa.charge.model.Registry;
 import br.com.dsa.charge.model.RegistryStatus;
 import br.com.dsa.charge.repository.RegistriesRepository;
@@ -31,5 +34,10 @@ public class RegistryService {
 		this.save(registry);
 
 		return RegistryStatus.RECEIVED.getDescription();
+	}
+
+	public List<Registry> findByDescription(RegistryFilter filter) {
+		String description = filter.getDescription() == null ? "%" : filter.getDescription();
+		return repository.findByDescriptionContaining(description);
 	}
 }
