@@ -4,16 +4,25 @@ import java.util.Locale;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
+@ServletComponentScan
 @SpringBootApplication
-public class ChargeApplication {
+public class ChargeApplication extends SpringBootServletInitializer {
 
-	public static void main(String[] args) {
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(ChargeApplication.class);
+	}
+
+	public static void main(String[] args) throws Exception {
 		SpringApplication.run(ChargeApplication.class, args);
 	}
 

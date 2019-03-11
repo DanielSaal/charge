@@ -1,6 +1,7 @@
 package br.com.dsa.charge.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,9 @@ public class RegistryService {
 	RegistriesRepository repository;
 	
 	public Registry findById(Long id) {
-		return repository.findById(id);
+		Optional<Registry> reg = repository.findById(id);
+
+		return reg.get();
 	}
 
 	public void save(Registry registry) {
@@ -25,7 +28,7 @@ public class RegistryService {
 	}
 
 	public void delete(Long id) {
-		repository.delete(id);
+		repository.deleteById(id);
 	}
 
 	public String receive(Long id) {
